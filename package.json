@@ -1,5 +1,5 @@
 {
-	"name": "bexcell-aleph-aleph",
+	"name": "binesweeper",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@picocss/pico": "^1.5.7",
 		"@types/underscore": "^1.11.4",
 		"underscore": "^1.13.6"
 	}

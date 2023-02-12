@@ -54,13 +54,23 @@
 <style lang="scss">
 	.grid {
 		display: grid;
-		--width: min(100vw, 90vh);
-		max-width: var(--width);
-		margin: auto;
+		column-gap: 0;
 	}
 
 	.grid-cell {
 		font-size: calc(0.06 * var(--width));
 		aspect-ratio: 1;
+		margin: 0;
+		padding: 0;
+		border: 1px solid var(--form-element-border-color);
+
+		&:disabled {
+			opacity: 0.85;
+		}
+
+		&:active,
+		&:focus {
+			--background-color: var(--primary);
+		}
 	}
 </style>

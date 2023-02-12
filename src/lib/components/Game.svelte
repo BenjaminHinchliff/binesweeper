@@ -147,5 +147,15 @@
 	}
 </script>
 
-<Grid {counts} visible={states} {alive} on:reveal={reveal} on:flag={flag} />
-<Options on:start={() => startGame(difficulties[difficulty])} bind:difficulty {difficulties} />
+<div class="game">
+	<Grid {counts} visible={states} {alive} on:reveal={reveal} on:flag={flag} />
+	<Options on:start={() => startGame(difficulties[difficulty])} bind:difficulty {difficulties} />
+</div>
+
+<style>
+	.game {
+		--width: min(100vw, 90vh);
+		max-width: var(--width);
+		margin: auto;
+	}
+</style>
