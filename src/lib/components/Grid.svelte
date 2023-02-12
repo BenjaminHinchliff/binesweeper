@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { zip } from 'underscore';
-	import { Visiblity } from './Game.svelte';
+	import { State, Mine } from './Game.svelte';
 
 	export let counts: number[][];
-	export let visible: Visiblity[][];
+	export let visible: State[][];
+	export let alive: boolean;
 
 	const dispatch = createEventDispatcher<{
 		reveal: { row: number; col: number };
@@ -12,30 +13,34 @@
 	}>();
 
 	function reveal(row: number, col: number) {
-		dispatch('reveal', { row, col });
+		if (alive) {
+			dispatch('reveal', { row, col });
+		}
 	}
 
 	function flag(row: number, col: number) {
-		dispatch('flag', { row, col });
+		if (alive) {
+			dispatch('flag', { row, col });
+		}
 	}
 </script>
 
 <div class="grid" style:grid-template-columns="repeat({counts[0].length}, 1fr [col-start])">
 	{#each zip(counts, visible) as [countRow, visRow], i}
-		{#each zip(countRow, visRow) as [count, visible], j}
+		{#each zip(countRow, visRow) as [count, state], j}
 			<button
 				class="grid-cell"
 				on:click={() => reveal(i, j)}
 				on:contextmenu|preventDefault={() => flag(i, j)}
-				disabled={visible === Visiblity.Revealed}
+				disabled={state === State.Revealed}
 			>
-				{visible === Visiblity.Revealed
-					? count === Infinity
+				{state === State.Revealed
+					? count === Mine
 						? '💣'
 						: count === 0
 						? ' '
 						: count
-					: visible === Visiblity.Flagged
+					: state === State.Flagged
 					? '🚩'
 					: ' '}
 			</button>

@@ -2,4 +2,4 @@
 	import Game from '$lib/components/Game.svelte';
 </script>
 
-<Game width={10} height={10} mines={10} />
+<Game width={16} height={30} mines={99} />
