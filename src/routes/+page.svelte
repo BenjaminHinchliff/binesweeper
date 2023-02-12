@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Grid from '$lib/components/Grid.svelte';
+	import Game from '$lib/components/Game.svelte';
 </script>
 
-<Grid width={10} height={5} />
-
+<Game width={10} height={10} mines={10} />

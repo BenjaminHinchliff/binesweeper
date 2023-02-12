@@ -1,14 +1,44 @@
 <script lang="ts">
-	export let width: number;
-	export let height: number;
+	import { createEventDispatcher } from 'svelte';
+	import { zip } from 'underscore';
+	import { Visiblity } from './Game.svelte';
+
+	export let counts: number[][];
+	export let visible: Visiblity[][];
+
+	const dispatch = createEventDispatcher<{
+		reveal: { row: number; col: number };
+		flag: { row: number; col: number };
+	}>();
+
+	function reveal(row: number, col: number) {
+		dispatch('reveal', { row, col });
+	}
+
+	function flag(row: number, col: number) {
+		dispatch('flag', { row, col });
+	}
 </script>
 
-<div class="grid" style:grid-template-columns="repeat({width}, 1fr [col-start])">
-	{#each Array(width) as _, i}
-		{#each Array(height) as _, j}
-			<button class="grid-cell" on:click={console.log} on:contextmenu|preventDefault={console.log}
-				>{i}, {j}</button
+<div class="grid" style:grid-template-columns="repeat({counts[0].length}, 1fr [col-start])">
+	{#each zip(counts, visible) as [countRow, visRow], i}
+		{#each zip(countRow, visRow) as [count, visible], j}
+			<button
+				class="grid-cell"
+				on:click={() => reveal(i, j)}
+				on:contextmenu|preventDefault={() => flag(i, j)}
+				disabled={visible === Visiblity.Revealed}
 			>
+				{visible === Visiblity.Revealed
+					? count === Infinity
+						? '💣'
+						: count === 0
+						? ' '
+						: count
+					: visible === Visiblity.Flagged
+					? '🚩'
+					: ' '}
+			</button>
 		{/each}
 	{/each}
 </div>
@@ -16,10 +46,13 @@
 <style lang="scss">
 	.grid {
 		display: grid;
+		--width: min(100vw, 90vh);
+		max-width: var(--width);
+		margin: auto;
 	}
 
 	.grid-cell {
-		font-size: 4vw;
+		font-size: calc(0.06 * var(--width));
 		aspect-ratio: 1;
 	}
 </style>
