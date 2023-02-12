@@ -65,7 +65,7 @@
 		border: 1px solid var(--form-element-border-color);
 
 		&:disabled {
-			opacity: 0.85;
+			opacity: 0.8;
 		}
 
 		&:active,
