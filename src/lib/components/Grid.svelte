@@ -7,6 +7,18 @@
 	export let visible: State[][];
 	export let alive: boolean;
 
+	// TODO: tweak colors to be less... awful
+	const colors = [
+		'#0100fe',
+		'#017f01',
+		'#fe0000',
+		'#010080',
+		'#810102',
+		'#008081',
+		'#000000',
+		'#808080'
+	];
+
 	$: width = counts[0].length;
 
 	const dispatch = createEventDispatcher<{
@@ -36,6 +48,7 @@
 				on:contextmenu|preventDefault={() => flag(i, j)}
 				disabled={state === State.Revealed}
 				style:font-size="calc({0.55 / width} * var(--width))"
+				style:color={colors[count - 1]}
 			>
 				{state === State.Revealed
 					? count === Mine
