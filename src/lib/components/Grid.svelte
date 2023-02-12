@@ -7,6 +7,8 @@
 	export let visible: State[][];
 	export let alive: boolean;
 
+	$: width = counts[0].length;
+
 	const dispatch = createEventDispatcher<{
 		reveal: { row: number; col: number };
 		flag: { row: number; col: number };
@@ -25,7 +27,7 @@
 	}
 </script>
 
-<div class="grid" style:grid-template-columns="repeat({counts[0].length}, 1fr [col-start])">
+<div class="grid" style:grid-template-columns="repeat({width}, 1fr [col-start])">
 	{#each zip(counts, visible) as [countRow, visRow], i}
 		{#each zip(countRow, visRow) as [count, state], j}
 			<button
@@ -33,6 +35,7 @@
 				on:click={() => reveal(i, j)}
 				on:contextmenu|preventDefault={() => flag(i, j)}
 				disabled={state === State.Revealed}
+				style:font-size="calc({0.55 / width} * var(--width))"
 			>
 				{state === State.Revealed
 					? count === Mine
