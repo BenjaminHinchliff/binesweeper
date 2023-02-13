@@ -85,9 +85,9 @@
 			return;
 		}
 
-		// reveal unrevealed neighbors neighbors
+		// reveal closed neighbors
 		forEachNeighbor(row, col, width, height, (i, j) => {
-			if (states[i][j] !== State.Revealed) {
+			if (states[i][j] === State.Closed) {
 				revealZeros(i, j);
 			}
 		});
@@ -98,7 +98,13 @@
 	}
 
 	function revealMap() {
-		states = states.map((state) => state.fill(State.Revealed));
+		for (let i = 0; i < height; i++) {
+			for (let j = 0; j < width; j++) {
+				if (states[i][j] !== State.Flagged || counts[i][j] !== Mine) {
+					states[i][j] = State.Revealed;
+				}
+			}
+		}
 	}
 
 	// check if any closed cells still exist without mines
@@ -126,6 +132,11 @@
 
 	function reveal(event: CustomEvent<{ row: number; col: number }>) {
 		const { row, col } = event.detail;
+		// don't reveal flagged squares
+		if (states[row][col] === State.Flagged) {
+			return;
+		}
+
 		revealZeros(row, col);
 		states[row][col] = State.Revealed;
 		if (hitMine(row, col)) {
