@@ -165,7 +165,7 @@
 
 <style>
 	.game {
-		--width: min(100vw, 90vh);
+		--width: min(100vw, 85vh);
 		max-width: var(--width);
 		margin: auto;
 	}
