@@ -2,6 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
 	import { zip } from 'underscore';
 	import { State, Mine } from './Game.svelte';
+	import mineImg from '$lib/assets/mine-plain.svg';
+	import flagImg from '$lib/assets/flag-plain.svg';
 
 	export let counts: number[][];
 	export let visible: State[][];
@@ -50,15 +52,15 @@
 				style:font-size="calc({0.55 / width} * var(--width))"
 				style:color={colors[count - 1]}
 			>
-				{state === State.Revealed
-					? count === Mine
-						? '💣'
-						: count === 0
-						? ' '
-						: count
-					: state === State.Flagged
-					? '🚩'
-					: ' '}
+				{#if state === State.Revealed}
+					{#if count === Mine}
+						<img alt="mine" src={mineImg} />
+					{:else if count !== 0}
+						{count}
+					{/if}
+				{:else if state === State.Flagged}
+					<img alt="flag" src={flagImg} />
+				{/if}
 			</button>
 		{/each}
 	{/each}
@@ -85,5 +87,11 @@
 		&:focus {
 			--background-color: var(--primary);
 		}
+	}
+
+	img {
+		width: 80%;
+		height: 80%;
+		margin: 10%;
 	}
 </style>
