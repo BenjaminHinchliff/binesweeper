@@ -42,8 +42,8 @@
 </script>
 
 <div class="grid" style:grid-template-columns="repeat({width}, 1fr [col-start])">
-	{#each zip(counts, visible) as [countRow, visRow], i}
-		{#each zip(countRow, visRow) as [count, state], j}
+	{#each zip(counts, visible) as [countRow, visRow], i (i)}
+		{#each zip(countRow, visRow) as [count, state], j (j)}
 			<button
 				class="grid-cell"
 				on:click={() => reveal(i, j)}
@@ -54,12 +54,12 @@
 			>
 				{#if state === State.Revealed}
 					{#if count === Mine}
-						<img alt="mine" src={mineImg} />
+						<img alt="m" src={mineImg} />
 					{:else if count !== 0}
 						{count}
 					{/if}
 				{:else if state === State.Flagged}
-					<img alt="flag" src={flagImg} />
+					<img alt="f" src={flagImg} />
 				{/if}
 			</button>
 		{/each}
